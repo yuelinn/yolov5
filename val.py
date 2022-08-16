@@ -288,6 +288,7 @@ def run(
     # Plots
     if plots:
         confusion_matrix.plot(save_dir=save_dir, names=list(names.values()))
+        print("Confusion matrix:\n", confusion_matrix.matrix)
         callbacks.run('on_val_end')
 
     # Save JSON
