@@ -439,7 +439,6 @@ class LoadImagesAndLabels(Dataset):
                 else:
                     raise Exception(f'{prefix}{p} does not exist')
             self.im_files = sorted(x.replace('/', os.sep) for x in f if x.split('.')[-1].lower() in IMG_FORMATS)
-            print("------------------------------------------------------------------> Image files ", self.im_files)
             # self.img_files = sorted([x for x in f if x.suffix[1:].lower() in IMG_FORMATS])  # pathlib
             assert self.im_files, f'{prefix}No images found'
         except Exception as e:
@@ -479,8 +478,7 @@ class LoadImagesAndLabels(Dataset):
         self.indices = range(n)
 
         # Update labels
-        #include_class = [0,1]  # filter labels to include only these classes (optional)
-        include_class = [0,1,2]
+        include_class = []  # filter labels to include only these classes (optional)
         include_class_array = np.array(include_class).reshape(1, -1)
         for i, (label, segment) in enumerate(zip(self.labels, self.segments)):
             if include_class:
@@ -601,7 +599,7 @@ class LoadImagesAndLabels(Dataset):
             img, (h0, w0), (h, w) = self.load_image(index)
 
             # Letterbox
-            shape = self.batch_shapes[self.batch[index]] if self.rect else self.  # final letterboxed shape
+            shape = self.batch_shapes[self.batch[index]] if self.rect else self.img_size  # final letterboxed shape
             img, ratio, pad = letterbox(img, shape, auto=False, scaleup=self.augment)
             shapes = (h0, w0), ((h / h0, w / w0), pad)  # for COCO mAP rescaling
 
@@ -670,8 +668,6 @@ class LoadImagesAndLabels(Dataset):
             if r != 1:  # if sizes are not equal
                 interp = cv2.INTER_LINEAR if (self.augment or r > 1) else cv2.INTER_AREA
                 im = cv2.resize(im, (int(w0 * r), int(h0 * r)), interpolation=interp)
-            print(im.shape)
-            input('stop')
             return im, (h0, w0), im.shape[:2]  # im, hw_original, hw_resized
         else:
             return self.ims[i], self.im_hw0[i], self.im_hw[i]  # im, hw_original, hw_resized
