@@ -10,6 +10,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+import pickle
 
 
 def fitness(x):
@@ -178,13 +179,18 @@ class ConfusionMatrix:
         # fn = self.matrix.sum(0) - tp  # false negatives (missed detections)
         return tp[:-1], fp[:-1]  # remove background class
 
-    def plot(self, normalize=True, save_dir='', names=()):
+    def plot(self, normalize=False, save_dir='', names=()):
         try:
             import seaborn as sn
 
             array = self.matrix / ((self.matrix.sum(0).reshape(1, -1) + 1E-9) if normalize else 1)  # normalize columns
-            array[array < 0.005] = np.nan  # don't annotate (would appear as 0.00)
-
+            #array[array < 0.005] = np.nan  # don't annotate (would appear as 0.00)
+            array[array < 0.005] = 0  # don't annotate (would appear as 0.00)
+            print("Array\n",array)
+            print(type(array))
+            #with open("confusion_array.pkl", "wb") as pkl:
+                #pickle.dump(array,pkl)
+            np.save(Path(save_dir) / 'confusion_matrix_array', array)
             fig = plt.figure(figsize=(12, 9), tight_layout=True)
             nc, nn = self.nc, len(names)  # number of classes, names
             sn.set(font_scale=1.0 if nc < 50 else 0.8)  # for label size
