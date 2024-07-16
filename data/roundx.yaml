@@ -1,0 +1,8 @@
+path: <path to parent dir>
+
+train: train
+val: val
+test: val
+
+nc: 3
+names: ['honeybee', 'bumblebee', 'unknown']
