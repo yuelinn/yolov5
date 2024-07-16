@@ -1,0 +1,24 @@
+path: /mnt/mon13/bees/hiwiNr1_unchecked/
+
+train: train
+val: val
+test: test
+
+nc: 15
+names: [
+  'honeybee_hiwi', 
+  'bumblebee_hiwi', 
+  'unknown_hiwi',
+  'honeybee_r1_checkme', 
+  'bumblebee_r1_checkme', 
+  'unknown_r1_checkme',
+  'honeybee_r1_hiwiagrees', 
+  'bumblebee_r1_hiwiagrees', 
+  'unknown_r1_hiwiagrees',
+  'honeybee_r2_checkme', 
+  'bumblebee_r2_checkme', 
+  'unknown_r2_checkme',
+  'honeybee_r2_hiwiagrees', 
+  'bumblebee_r2_hiwiagrees', 
+  'unknown_r2_hiwiagrees',
+       ]

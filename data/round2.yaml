@@ -1,0 +1,8 @@
+path: /export/data/linn/bees/round2_ds
+
+train: train
+val: val
+test: val
+
+nc: 3
+names: ['honeybee', 'bumblebee', 'unknown']

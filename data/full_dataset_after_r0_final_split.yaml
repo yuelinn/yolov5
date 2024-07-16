@@ -1,4 +1,4 @@
-path: /export/data/linn/bees/full_ds
+path: /export/data/linn/bees/full_ds/splits
 
 train: train
 val: val

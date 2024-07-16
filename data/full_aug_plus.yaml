@@ -1,0 +1,8 @@
+path: /export/data/linn/bees/data/2021_2022_all_dataset_auged_20
+
+train: train
+val: val
+test: test
+
+nc: 3
+names: ['honeybee', 'bumblebee', 'unknown']
