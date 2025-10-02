@@ -241,14 +241,17 @@ def run(
                 preds_list=[]
                 for obj in f:
                     obj_list = obj.split(" ")
-
-                    obj_cls, cx, cy, w, h, conf = obj_list
+                    if len(obj_list) == 6:
+                        obj_cls, cx, cy, w, h, conf = obj_list
+                        conf = float(conf.strip())
+                    else: # for when no confidence is given, ie for ablations
+                        obj_cls, cx, cy, w, h = obj_list
+                        conf = 1.0
                     cx = float(cx)
                     cy = float(cy)
                     w = float(w)
                     h = float(h)
-                    obj_cls = int(obj_cls)
-                    conf = float(conf.strip())
+                    obj_cls = int(float(obj_cls))
 
                     minx = int((cx - w/2) * img_w)
                     maxx = int((cx + w/2) * img_w)
@@ -258,8 +261,6 @@ def run(
                 
                 preds_img = torch.tensor(preds_list)
             preds.append(preds_img.to(device))
-        
-        # import pdb; pdb.set_trace()
 
 
         # Metrics
@@ -301,7 +302,7 @@ def run(
             callbacks.run('on_val_image_end', pred, predn, path, names, im[si])
 
         # Plot images
-        if plots and batch_i < 3:
+        if False: #plots and batch_i < 3:
             plot_images(im, targets, paths, save_dir / f'val_batch{batch_i}_labels.jpg', names)  # labels
             plot_images(im, output_to_target(preds), paths, save_dir / f'val_batch{batch_i}_pred.jpg', names)  # pred
 
@@ -373,6 +374,7 @@ def run(
     maps = np.zeros(nc) + map
     for i, c in enumerate(ap_class):
         maps[c] = ap[i]
+    confusion_matrix.print()
     return (mp, mr, map50, map, 0), maps, t
 
 
