@@ -187,7 +187,7 @@ def run(
 
     seen = 0
     confusion_matrix = ConfusionMatrix(nc=nc, conf=conf_thres, iou_thres=iou_thres)
-    names = ['honeybee', 'bumblebee', 'other'] # FIXME  model.names if hasattr(model, 'names') else model.module.names  # get class names
+    names = ['honeybee', 'bumblebee', 'other'] # model.names if hasattr(model, 'names') else model.module.names  # get class names
     if isinstance(names, (list, tuple)):  # old format
         names = dict(enumerate(names))
     class_map = coco80_to_coco91_class() if is_coco else list(range(1000))
@@ -302,7 +302,7 @@ def run(
             callbacks.run('on_val_image_end', pred, predn, path, names, im[si])
 
         # Plot images
-        if False: #plots and batch_i < 3:
+        if plots and batch_i < 3:
             plot_images(im, targets, paths, save_dir / f'val_batch{batch_i}_labels.jpg', names)  # labels
             plot_images(im, output_to_target(preds), paths, save_dir / f'val_batch{batch_i}_pred.jpg', names)  # pred
 
@@ -375,6 +375,14 @@ def run(
     for i, c in enumerate(ap_class):
         maps[c] = ap[i]
     confusion_matrix.print()
+    # save metrics to csv 
+    with open(os.path.join(save_dir, "metrics.txt"), "w") as metrics_f:
+        metrics_f.write("class, honey, bumble, others\n")
+        metrics_f.write(f"precision, {p[0]}, {p[1]}, {p[2]}\n")
+        metrics_f.write(f"recall, {r[0]}, {r[1]}, {r[2]}\n")
+        metrics_f.write(f"ap50, {ap50[0]}, {ap50[1]}, {ap50[2]}\n")
+        metrics_f.write(f"ap50-95, {ap[0]}, {ap[1]}, {ap[2]}\n")
+        metrics_f.write(f"f1, {f1[0]}, {f1[1]}, {f1[2]}\n")
     return (mp, mr, map50, map, 0), maps, t
 
 
