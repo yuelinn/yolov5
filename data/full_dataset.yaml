@@ -1,8 +1,8 @@
-path: /export/data/linn/bees/full_ds
+path: /scratchdata/linn/by_plot_da_test-d4/alles_500
 
 train: train
 val: val
-test: test
+test: val
 
 nc: 3
 names: ['honeybee', 'bumblebee', 'unknown']
