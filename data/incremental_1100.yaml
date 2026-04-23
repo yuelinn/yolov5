@@ -1,0 +1,9 @@
+path: /scratchdata/linn/inc_individuals/selected/train_1100
+
+train: train
+val: val
+test: val 
+
+nc: 3
+names: ['honeybee', 'bumblebee', 'unknown']
+class_clrs: ['blue', 'red', 'yellow']  # PIL colours https://github.com/python-pillow/Pillow/blob/12028c9789c3c6ac15eb147a092bfc463ebbc398/src/PIL/ImageColor.py

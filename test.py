@@ -123,7 +123,7 @@ def run(
         model=None,
         dataloader=None,
         save_dir=Path(''),
-        plots=True,
+        plots=False,  # FIXME
         callbacks=Callbacks(),
         compute_loss=None,
         predictions_dir="",
@@ -377,12 +377,12 @@ def run(
     confusion_matrix.print()
     # save metrics to csv 
     with open(os.path.join(save_dir, "metrics.txt"), "w") as metrics_f:
-        metrics_f.write("class, honey, bumble, others\n")
-        metrics_f.write(f"precision, {p[0]}, {p[1]}, {p[2]}\n")
-        metrics_f.write(f"recall, {r[0]}, {r[1]}, {r[2]}\n")
-        metrics_f.write(f"ap50, {ap50[0]}, {ap50[1]}, {ap50[2]}\n")
-        metrics_f.write(f"ap50-95, {ap[0]}, {ap[1]}, {ap[2]}\n")
-        metrics_f.write(f"f1, {f1[0]}, {f1[1]}, {f1[2]}\n")
+        metrics_f.write("class,honey,bumble,others\n")
+        metrics_f.write(f"precision,{p[0]},{p[1]},{p[2]}\n")
+        metrics_f.write(f"recall,{r[0]},{r[1]},{r[2]}\n")
+        metrics_f.write(f"ap50,{ap50[0]},{ap50[1]},{ap50[2]}\n")
+        metrics_f.write(f"ap50-95,{ap[0]},{ap[1]},{ap[2]}\n")
+        metrics_f.write(f"f1,{f1[0]},{f1[1]},{f1[2]}\n")
     return (mp, mr, map50, map, 0), maps, t
 
 
